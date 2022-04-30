@@ -1,45 +1,42 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+// TODO: add styles
+import { useRef, useState } from 'react'
 
 function App () {
-  const [count, setCount] = useState(0)
+  const [name, setName] = useState('')
+  const [value, setValue] = useState()
+  const inputRef = useRef()
 
-  return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type='button' onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
+  const handleSubmit = event => {
+    event.preventDefault()
+    setName(inputRef.current.value)
+  }
+
+  return name
+    ? (
+      <>
+        <h1>{name}</h1>
+        {/* TODO: options for fibonacci, t-shirt size */}
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
+          <button key={i} onClick={() => setValue(i)}>
+            {i}
           </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className='App-link'
-            href='https://reactjs.org'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className='App-link'
-            href='https://vitejs.dev/guide/features.html'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+        ))}
+        <br />
+        <br />
+        {value && ' ' + name + ': ' + value}
+      </>
+      )
+    : (
+      <>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Name:
+            <input type='text' name='name' ref={inputRef} />
+          </label>
+          <button type='submit'>Join Session</button>
+        </form>
+      </>
+      )
 }
 
 export default App
