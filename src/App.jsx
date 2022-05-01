@@ -14,9 +14,9 @@ const App = () => {
     window.localStorage.setItem('name', nameValue)
     setName(nameValue)
     sharedState.players[nameValue] = {
-      vote: null,
+      vote: window.localStorage.getItem('vote'),
       active: true,
-      clientID
+      clientID // TODO: make clientID array to support multiple windows
     }
   }
 
@@ -40,7 +40,7 @@ const App = () => {
       if (isSynced && name) {
         // initialise player object on reentry
         sharedState.players[name] = {
-          vote: null,
+          vote: window.localStorage.getItem('vote'),
           active: true,
           clientID // to associate clientID with player object
         }
@@ -68,8 +68,8 @@ const App = () => {
   }, [sharedState.players])
 
   const setVote = voteValue => {
-    // TODO: persist vote
     sharedState.players[name].vote = voteValue
+    window.localStorage.setItem('vote', voteValue)
   }
 
   const kickPlayer = playerName => {
