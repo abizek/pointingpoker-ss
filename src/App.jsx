@@ -1,6 +1,6 @@
 // TODO: add styles
 // TODO: dark mode
-// TODO: hide votes until shown with show votes button
+// TODO: hide votes when a new player joins
 import { Fragment, useRef, useState, useEffect } from 'react'
 import { useSyncedStore } from '@syncedstore/react'
 import { store, wsProvider, awareness, clientID } from './store'
@@ -70,10 +70,25 @@ const App = () => {
   const setVote = voteValue => {
     sharedState.players[name].vote = voteValue
     window.localStorage.setItem('vote', voteValue)
+    // show votes if you are the last person to vote
+    if (
+      Object.keys(sharedState.players).every(
+        player => !!sharedState.players[player].vote
+      )
+    ) {
+      sharedState.gameState.showVotes = true
+    }
   }
 
   const kickPlayer = playerName => {
     delete sharedState.players[playerName]
+  }
+
+  const clearVotes = () => {
+    Object.keys(sharedState.players).forEach(player => {
+      sharedState.players[player].vote = null
+    })
+    sharedState.gameState.showVotes = false
   }
 
   return (
@@ -102,23 +117,39 @@ const App = () => {
             </form>
           </>
           )}
-      {connected &&
-        Object.keys(sharedState.players).map(playerName => {
-          const vote = sharedState.players[playerName].vote
-          const active = sharedState.players[playerName].active
-          return (
-            playerName && (
-              <Fragment key={playerName}>
-                <br />
-                {`${playerName}${active ? '' : '(left)'}: ${vote}`}
-                &nbsp;
-                {!active && (
-                  <button onClick={() => kickPlayer(playerName)}>Kick</button>
-                )}
-              </Fragment>
+      {connected && (
+        <>
+          <br />
+          <button onClick={clearVotes}>Clear Votes</button>
+          &nbsp;
+          <button
+            onClick={() => {
+              sharedState.gameState.showVotes = true
+            }}
+          >
+            Show Votes
+          </button>
+          <br />
+          {Object.keys(sharedState.players).map(playerName => {
+            const vote = sharedState.players[playerName].vote
+            const active = sharedState.players[playerName].active
+            return (
+              playerName && (
+                <Fragment key={playerName}>
+                  <br />
+                  {`${playerName}${active ? '' : '(left)'}: ${
+                    sharedState.gameState.showVotes && vote ? vote : '?'
+                  }`}
+                  &nbsp;
+                  {!active && (
+                    <button onClick={() => kickPlayer(playerName)}>Kick</button>
+                  )}
+                </Fragment>
+              )
             )
-          )
-        })}
+          })}
+        </>
+      )}
     </>
   )
 }
