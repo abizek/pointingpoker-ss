@@ -11,6 +11,9 @@ export const store = syncedStore({
 const doc = getYjsValue(store)
 export const wsProvider = new WebsocketProvider(
   'wss://floating-reef-83846.herokuapp.com',
-  'yjs-pointing-poker',
+  'yjs-pointing-poker', // TODO: implement rooms
   doc
 )
+
+export const awareness = wsProvider.awareness
+export const clientID = wsProvider.awareness.clientID
