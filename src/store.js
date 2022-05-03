@@ -12,7 +12,7 @@ export const store = syncedStore({
 const doc = getYjsValue(store)
 // TODO: use webrtc provider and use WS/Turn as fallback
 export const wsProvider = new WebsocketProvider(
-  'wss://floating-reef-83846.herokuapp.com',
+  'wss://floating-reef-83846.herokuapp.com', // TODO: use env var
   'yjs-pointing-poker', // TODO: implement rooms
   doc
 )

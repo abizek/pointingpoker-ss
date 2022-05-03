@@ -5,6 +5,12 @@ import { Fragment, useRef, useState, useEffect } from 'react'
 import { useSyncedStore } from '@syncedstore/react'
 import { store, wsProvider, awareness, clientID } from './store'
 
+const voteOptions = {
+  '1 to 10': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  'modified fibonacci': [0.5, 1, 2, 3, 5, 8, 13, 20, 40, 100],
+  't-shirt sizes': ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
+}
+
 const App = () => {
   const sharedState = useSyncedStore(store)
 
@@ -93,20 +99,74 @@ const App = () => {
     sharedState.gameState.showVotes = false
   }
 
+  useEffect(() => {
+    if (connected && !sharedState.gameState.voteOptions) {
+      sharedState.gameState.voteOptions = '1 to 10'
+    }
+  }, [connected, sharedState.gameState.voteOptions])
+
   return (
     <>
       {name
         ? (
           <>
             <h1>{name}</h1>
-            {/* TODO: options for fibonacci, t-shirt size */}
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
+            {voteOptions[sharedState.gameState.voteOptions ?? '1 to 10'].map(i => (
               <button key={i} onClick={() => setVote(i)}>
                 {i}
               </button>
             ))}
             <br />
             <br />
+            {connected
+              ? (
+                <>
+                  <button onClick={clearVotes}>Clear Votes</button>
+                  &nbsp;
+                  <button
+                    onClick={() => {
+                      sharedState.gameState.showVotes = true
+                    }}
+                  >
+                    Show Votes
+                  </button>
+                  <br />
+                  <br />
+                  Vote Options: &nbsp;
+                  <select
+                    value={sharedState.gameState.voteOptions ?? '1 to 10'}
+                    onChange={event => {
+                      sharedState.gameState.voteOptions = event.target.value
+                    }}
+                  >
+                    <option value='1 to 10'>1 to 10</option>
+                    <option value='modified fibonacci'>modified fibonacci</option>
+                    <option value='t-shirt sizes'>t-shirt sizes</option>
+                  </select>
+                  <br />
+                  {Object.keys(sharedState.players).map(playerName => {
+                    const vote = sharedState.players[playerName].vote
+                    const active = sharedState.players[playerName].active
+                    return (
+                      playerName && (
+                        <Fragment key={playerName}>
+                          <br />
+                          {`${playerName}${active ? '' : '(left)'}: ${
+                            sharedState.gameState.showVotes && vote ? vote : '?'
+                          }`}
+                          &nbsp;
+                          {!active && (
+                            <button onClick={() => kickPlayer(playerName)}>
+                              Kick
+                            </button>
+                          )}
+                        </Fragment>
+                      )
+                    )
+                  })}
+                </>
+                )
+              : <>Connecting...</>}
           </>
           )
         : (
@@ -120,40 +180,6 @@ const App = () => {
             </form>
           </>
           )}
-      {connected
-        ? (
-          <>
-            <button onClick={clearVotes}>Clear Votes</button>
-            &nbsp;
-            <button
-              onClick={() => {
-                sharedState.gameState.showVotes = true
-              }}
-            >
-              Show Votes
-            </button>
-            <br />
-            {Object.keys(sharedState.players).map(playerName => {
-              const vote = sharedState.players[playerName].vote
-              const active = sharedState.players[playerName].active
-              return (
-                playerName && (
-                  <Fragment key={playerName}>
-                    <br />
-                    {`${playerName}${active ? '' : '(left)'}: ${
-                      sharedState.gameState.showVotes && vote ? vote : '?'
-                    }`}
-                    &nbsp;
-                    {!active && (
-                      <button onClick={() => kickPlayer(playerName)}>Kick</button>
-                    )}
-                  </Fragment>
-                )
-              )
-            })}
-          </>
-          )
-        : <>Connecting...</>}
     </>
   )
 }
