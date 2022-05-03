@@ -1,6 +1,5 @@
 // TODO: add styles
 // TODO: dark mode
-// TODO: hide votes when a new player joins
 import { Fragment, useRef, useState, useEffect } from 'react'
 import { useSyncedStore } from '@syncedstore/react'
 import { store, wsProvider, awareness, clientID } from './store'
@@ -16,13 +15,17 @@ const App = () => {
 
   const [name, setName] = useState(window.localStorage.getItem('name') ?? '')
   const setPersistedName = nameValue => {
-    if (nameValue === '') return
+    if (!connected || nameValue === '') return
     window.localStorage.setItem('name', nameValue)
     setName(nameValue)
     sharedState.players[nameValue] = {
       vote: null,
       active: true,
       clientIDs: [clientID] // to associate clientID with player object
+    }
+    sharedState.gameState.showVotes = false
+    if (!sharedState.gameState.voteOptions) {
+      sharedState.gameState.voteOptions = '1 to 10'
     }
   }
 
@@ -99,12 +102,6 @@ const App = () => {
     sharedState.gameState.showVotes = false
   }
 
-  useEffect(() => {
-    if (connected && !sharedState.gameState.voteOptions) {
-      sharedState.gameState.voteOptions = '1 to 10'
-    }
-  }, [connected, sharedState.gameState.voteOptions])
-
   return (
     <>
       {name
@@ -137,6 +134,7 @@ const App = () => {
                     value={sharedState.gameState.voteOptions ?? '1 to 10'}
                     onChange={event => {
                       sharedState.gameState.voteOptions = event.target.value
+                      clearVotes()
                     }}
                   >
                     <option value='1 to 10'>1 to 10</option>
