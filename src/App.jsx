@@ -16,7 +16,7 @@ const App = () => {
     sharedState.players[nameValue] = {
       vote: window.localStorage.getItem('vote'),
       active: true,
-      clientID // TODO: make clientID array to support multiple windows
+      clientIDs: [clientID] // to associate clientID with player object
     }
   }
 
@@ -40,9 +40,10 @@ const App = () => {
       if (isSynced && name) {
         // initialise player object on reentry
         sharedState.players[name] = {
+          // TODO: unpersist vote
           vote: window.localStorage.getItem('vote'),
           active: true,
-          clientID // to associate clientID with player object
+          clientIDs: [...(sharedState.players[name]?.clientIDs || []), clientID]
         }
       }
     }
@@ -50,12 +51,15 @@ const App = () => {
 
     const handleAwarenessUpdate = ({ removed }) => {
       removed.forEach(removedClientId => {
-        const removedPlayer = Object.keys(sharedState.players).find(
-          player => sharedState.players[player].clientID === removedClientId
-        )
-        if (removedPlayer) {
-          sharedState.players[removedPlayer].active = false
-        }
+        Object.keys(sharedState.players).forEach(player => {
+          const index = sharedState.players[player].clientIDs.indexOf(removedClientId)
+          if (index > -1) {
+            sharedState.players[player].clientIDs.splice(index, 1)
+            if (sharedState.players[player].clientIDs.length === 0) {
+              sharedState.players[player].active = false
+            }
+          }
+        })
       })
     }
     awareness.on('update', handleAwarenessUpdate)
@@ -104,6 +108,7 @@ const App = () => {
               </button>
             ))}
             <br />
+            <br />
           </>
           )
         : (
@@ -117,39 +122,40 @@ const App = () => {
             </form>
           </>
           )}
-      {connected && (
-        <>
-          <br />
-          <button onClick={clearVotes}>Clear Votes</button>
-          &nbsp;
-          <button
-            onClick={() => {
-              sharedState.gameState.showVotes = true
-            }}
-          >
-            Show Votes
-          </button>
-          <br />
-          {Object.keys(sharedState.players).map(playerName => {
-            const vote = sharedState.players[playerName].vote
-            const active = sharedState.players[playerName].active
-            return (
-              playerName && (
-                <Fragment key={playerName}>
-                  <br />
-                  {`${playerName}${active ? '' : '(left)'}: ${
-                    sharedState.gameState.showVotes && vote ? vote : '?'
-                  }`}
-                  &nbsp;
-                  {!active && (
-                    <button onClick={() => kickPlayer(playerName)}>Kick</button>
-                  )}
-                </Fragment>
+      {connected
+        ? (
+          <>
+            <button onClick={clearVotes}>Clear Votes</button>
+            &nbsp;
+            <button
+              onClick={() => {
+                sharedState.gameState.showVotes = true
+              }}
+            >
+              Show Votes
+            </button>
+            <br />
+            {Object.keys(sharedState.players).map(playerName => {
+              const vote = sharedState.players[playerName].vote
+              const active = sharedState.players[playerName].active
+              return (
+                playerName && (
+                  <Fragment key={playerName}>
+                    <br />
+                    {`${playerName}${active ? '' : '(left)'}: ${
+                      sharedState.gameState.showVotes && vote ? vote : '?'
+                    }`}
+                    &nbsp;
+                    {!active && (
+                      <button onClick={() => kickPlayer(playerName)}>Kick</button>
+                    )}
+                  </Fragment>
+                )
               )
-            )
-          })}
-        </>
-      )}
+            })}
+          </>
+          )
+        : <>Connecting...</>}
     </>
   )
 }
