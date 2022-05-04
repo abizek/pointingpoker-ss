@@ -1,3 +1,4 @@
+// TODO: refactor into components
 // TODO: add styles
 // TODO: dark mode
 import { Fragment, useRef, useState, useEffect } from 'react'
@@ -149,7 +150,9 @@ const App = () => {
                       playerName && (
                         <Fragment key={playerName}>
                           <br />
-                          {`${playerName}${active ? '' : '(left)'}: ${
+                          {`${playerName}${vote ? '(voted)' : ''}${
+                            active ? '' : '(left)'
+                          }: ${
                             sharedState.gameState.showVotes && vote ? vote : '?'
                           }`}
                           &nbsp;
