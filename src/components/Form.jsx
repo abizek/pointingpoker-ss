@@ -1,7 +1,9 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { joinRoom } from '../room'
 
-export const Form = ({ setName }) => {
+const CUSTOM_ROOM = ''
+
+export const Form = ({ name, setName, setRoomJoined }) => {
   const setPersistedName = name => {
     if (name.trim() === '') return
 
@@ -14,22 +16,36 @@ export const Form = ({ setName }) => {
 
   const handleSubmit = async event => {
     event.preventDefault()
-    window.localStorage.setItem('room', roomInputRef.current.value)
-    await joinRoom(roomInputRef.current.value)
+    joinRoom(roomInputRef.current.value)
+    setRoomJoined(true)
     setPersistedName(nameInputRef.current.value)
   }
+
+  useEffect(() => {
+    // custom room support
+    if (CUSTOM_ROOM) {
+      roomInputRef.current.value = CUSTOM_ROOM
+      joinRoom(CUSTOM_ROOM)
+      setRoomJoined(true)
+    }
+  }, [])
 
   return (
     <form onSubmit={handleSubmit}>
       <label>
         Name:
-        <input type='text' name='name' ref={nameInputRef} />
+        <input type='text' name='name' defaultValue={name} ref={nameInputRef} />
       </label>
       <br />
       <br />
       <label>
         Room:
-        <input type='text' name='room' ref={roomInputRef} />
+        <input
+          type='text'
+          name='room'
+          disabled={!!CUSTOM_ROOM}
+          ref={roomInputRef}
+        />
       </label>
       <br />
       <br />
