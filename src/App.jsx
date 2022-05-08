@@ -4,7 +4,6 @@ import { Fragment, useState } from 'react'
 import { Form, PointingPokerSection } from './components'
 
 const App = () => {
-  // TODO: maybe add random session generator?
   const [name, setName] = useState(window.localStorage.getItem('name') ?? '')
   const [roomJoined, setRoomJoined] = useState(false)
 

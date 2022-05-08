@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react'
+import randomWords from 'random-words'
 import { joinRoom } from '../room'
 
 const CUSTOM_ROOM = ''
@@ -22,6 +23,7 @@ export const Form = ({ name, setName, setRoomJoined }) => {
   }
 
   useEffect(() => {
+    // TODO: get custom room name from route?
     // custom room support
     if (CUSTOM_ROOM) {
       roomInputRef.current.value = CUSTOM_ROOM
@@ -47,9 +49,18 @@ export const Form = ({ name, setName, setRoomJoined }) => {
           ref={roomInputRef}
         />
       </label>
+      &nbsp;
+      <button
+        type='button'
+        onClick={() => {
+          roomInputRef.current.value = randomWords()
+        }}
+      >
+        Random
+      </button>
       <br />
       <br />
-      <button type='submit'>Join Session</button>
+      <button type='submit'>Create/Join Session</button>
     </form>
   )
 }
