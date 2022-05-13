@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { useSyncedStore } from '@syncedstore/react'
 import { store } from '../store'
 import { room } from '../room'
-import { Menu, ScoreBoard, VoteOptionsButtonGroup } from './'
+import { Menu, ScoreBoard, VoteOptionsButtonGroup } from '.'
 
-export const PointingPokerSection = ({ name }) => {
+export const PointingPoker = ({ name }) => {
   const sharedState = useSyncedStore(store)
 
   const [connected, setConnected] = useState(false)

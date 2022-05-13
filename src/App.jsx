@@ -1,7 +1,7 @@
 // TODO: add styles
 // TODO: dark mode
 import { Fragment, useState } from 'react'
-import { Form, PointingPokerSection } from './components'
+import { Form, PointingPoker } from './components'
 
 const App = () => {
   const [name, setName] = useState(window.localStorage.getItem('name') ?? '')
@@ -10,7 +10,7 @@ const App = () => {
   return (
     <>
       {name && roomJoined
-        ? <PointingPokerSection name={name} />
+        ? <PointingPoker name={name} />
         : <Form name={name} setName={setName} setRoomJoined={setRoomJoined} />}
     </>
   )
