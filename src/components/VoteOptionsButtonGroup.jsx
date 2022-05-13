@@ -8,6 +8,7 @@ const voteOptions = {
 }
 
 // TODO: custom vote options
+// TODO: custom votes?
 export const VoteOptionsButtonGroup = ({ name }) => {
   const sharedState = useSyncedStore(store)
 

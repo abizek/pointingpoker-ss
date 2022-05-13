@@ -1,10 +1,13 @@
 import { useRef, useEffect } from 'react'
 import randomWords from 'random-words'
 import { joinRoom } from '../room'
+import { useParams } from 'react-router-dom'
 
-const CUSTOM_ROOM = ''
+const PREDEFINED_CUSTOM_ROOM = '' // TODO: get from env
 
 export const Form = ({ name, setName, setRoomJoined }) => {
+  const { customRoom: customRoomParam } = useParams()
+
   const setPersistedName = name => {
     if (name.trim() === '') return
 
@@ -23,11 +26,11 @@ export const Form = ({ name, setName, setRoomJoined }) => {
   }
 
   useEffect(() => {
-    // TODO: get custom room name from route?
     // custom room support
-    if (CUSTOM_ROOM) {
-      roomInputRef.current.value = CUSTOM_ROOM
-      joinRoom(CUSTOM_ROOM)
+    const customRoom = PREDEFINED_CUSTOM_ROOM || customRoomParam
+    if (customRoom) {
+      roomInputRef.current.value = customRoom
+      joinRoom(customRoom)
       setRoomJoined(true)
     }
   }, [])
@@ -45,7 +48,7 @@ export const Form = ({ name, setName, setRoomJoined }) => {
         <input
           type='text'
           name='room'
-          disabled={!!CUSTOM_ROOM}
+          disabled={!!(PREDEFINED_CUSTOM_ROOM || customRoomParam)}
           ref={roomInputRef}
         />
       </label>

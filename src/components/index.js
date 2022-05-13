@@ -1,5 +1,5 @@
 export * from './Form'
 export * from './Menu'
-export * from './PointingPokerSection'
+export * from './PointingPoker'
 export * from './ScoreBoard'
 export * from './VoteOptionsButtonGroup'
