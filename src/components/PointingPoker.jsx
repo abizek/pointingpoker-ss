@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSyncedStore } from '@syncedstore/react'
 import { store } from '../store'
 import { room } from '../room'
-import { Menu, ScoreBoard, VoteOptionsButtonGroup } from '.'
+import { Menu, ScoreBoard, ShareSessionLink, VoteOptionsButtonGroup } from '.'
 
 export const PointingPoker = ({ name }) => {
   const sharedState = useSyncedStore(store)
@@ -79,6 +79,7 @@ export const PointingPoker = ({ name }) => {
         : (
           <>Connecting...</>
           )}
+      <ShareSessionLink />
     </>
   )
 }
