@@ -1,12 +1,10 @@
 import { useRef, useEffect } from 'react'
 import randomWords from 'random-words'
 import { joinRoom } from '../room'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { CUSTOM_ROOM } from '../../config.json'
 
 export const Form = ({ name, setName, setRoomJoined }) => {
-  const { customRoom: customRoomParam } = useParams()
-
   const setPersistedName = name => {
     if (name.trim() === '') return
 
@@ -17,12 +15,20 @@ export const Form = ({ name, setName, setRoomJoined }) => {
   const nameInputRef = useRef()
   const roomInputRef = useRef()
 
+  const navigate = useNavigate()
+
   const handleSubmit = async event => {
     event.preventDefault()
-    joinRoom(roomInputRef.current.value)
-    setRoomJoined(true)
     setPersistedName(nameInputRef.current.value)
+    if (CUSTOM_ROOM) {
+      joinRoom(roomInputRef.current.value)
+      setRoomJoined(true)
+    } else {
+      navigate(`/${roomInputRef.current.value}`)
+    }
   }
+
+  const { customRoom: customRoomParam } = useParams()
 
   useEffect(() => {
     // custom room support
@@ -32,7 +38,7 @@ export const Form = ({ name, setName, setRoomJoined }) => {
       joinRoom(customRoom)
       setRoomJoined(true)
     }
-  }, [])
+  }, [customRoomParam])
 
   return (
     <form onSubmit={handleSubmit}>
