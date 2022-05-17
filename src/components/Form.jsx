@@ -81,7 +81,7 @@ export const Form = ({ name, setName, setRoomJoined }) => {
           <Input
             type='text'
             name='room'
-            placeholder='Room'
+            placeholder='Room (Leave this empty to create a random room)'
             ref={roomInputRef}
             icon={<mwc-icon>room</mwc-icon>}
             css={{ flexGrow: 1 }}
