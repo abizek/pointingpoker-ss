@@ -64,15 +64,12 @@ export const PointingPoker = ({ name }) => {
   return (
     <>
       {/* // TODO: make name editable? */}
-      <h1>{name}</h1>
+      <h1 css={{ marginTop: 0 }}>{name}</h1>
       {connected
         ? (
           <>
             <VoteOptionsButtonGroup name={name} />
-            <br />
-            <br />
             <Menu />
-            <br />
             <ScoreBoard />
           </>
           )

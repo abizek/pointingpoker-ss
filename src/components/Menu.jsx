@@ -1,5 +1,6 @@
 import { useSyncedStore } from '@syncedstore/react'
 import { store } from '../store'
+import { Button } from '.'
 
 export const Menu = () => {
   const sharedState = useSyncedStore(store)
@@ -11,21 +12,31 @@ export const Menu = () => {
     sharedState.gameState.showVotes = false
   }
 
+  const buttonClass = { flexGrow: 1 }
+
   return (
     <>
-      <button onClick={clearVotes}>Clear Votes</button>
-      &nbsp;
-      <button
-        onClick={() => {
-          sharedState.gameState.showVotes = true
+      <div
+        css={{
+          display: 'flex',
+          width: '100%',
+          margin: '24px 0',
+          columnGap: 8
         }}
       >
-        Show Votes
-      </button>
-      <br />
-      <br />
-      Vote Options:
-      &nbsp;
+        <Button onClick={clearVotes} css={buttonClass}>
+          Clear Votes
+        </Button>
+        <Button
+          onClick={() => {
+            sharedState.gameState.showVotes = true
+          }}
+          css={buttonClass}
+        >
+          Show Votes
+        </Button>
+      </div>
+      Vote Options: &nbsp;
       <select
         value={sharedState.gameState.voteOptions ?? '1 to 10'}
         onChange={event => {

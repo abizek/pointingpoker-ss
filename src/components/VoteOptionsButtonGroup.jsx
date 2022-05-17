@@ -1,5 +1,6 @@
 import { useSyncedStore } from '@syncedstore/react'
 import { store } from '../store'
+import { Button } from '.'
 
 const voteOptions = {
   '1 to 10': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -26,8 +27,8 @@ export const VoteOptionsButtonGroup = ({ name }) => {
   }
 
   return voteOptions[sharedState.gameState.voteOptions ?? '1 to 10'].map(i => (
-    <button key={i} onClick={() => setVote(i)}>
+    <Button key={i} onClick={() => setVote(i)} css={{ margin: 2 }}>
       {i}
-    </button>
+    </Button>
   ))
 }
