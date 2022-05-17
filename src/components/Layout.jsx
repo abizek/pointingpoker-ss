@@ -13,7 +13,7 @@ export const Layout = ({ children }) => (
       css={{
         textAlign: 'center',
         marginTop: '8vh',
-        position: 'absolute'
+        position: 'absolute' // FIXME: not use absolute positioning
       }}
     >
       <h1
@@ -30,7 +30,6 @@ export const Layout = ({ children }) => (
       css={{
         border: '1px solid lightgrey',
         borderRadius: 16,
-        padding: '32px 16px',
         width: 'max-content',
         margin: 'auto',
         backgroundColor: '#f8f8f8'
