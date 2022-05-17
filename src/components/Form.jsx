@@ -31,11 +31,10 @@ export const Form = ({ name, setName, setRoomJoined }) => {
     }
     setPersistedName(nameValue)
 
-    const roomValue = customRoom || roomInputRef.current.value
-    if (!roomValue) {
+    if (customRoom || !roomInputRef.current.value) {
       return
     }
-    navigate(`/${roomValue}`)
+    navigate(`/${roomInputRef.current.value}`)
   }
 
   useEffect(() => {
