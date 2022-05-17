@@ -32,7 +32,8 @@ export const Layout = ({ children }) => (
         borderRadius: 16,
         padding: '32px 16px',
         width: 'max-content',
-        margin: 'auto'
+        margin: 'auto',
+        backgroundColor: '#f8f8f8'
       }}
     >
       {children}

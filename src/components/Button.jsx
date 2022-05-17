@@ -1,7 +1,7 @@
 export const Button = ({ children, css, ...restProps }) => (
   <button
     css={{
-      backgroundColor: 'transparent',
+      backgroundColor: 'white',
       border: '1px solid #ccc',
       borderRadius: 12,
       padding: '6px 16px',

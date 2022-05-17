@@ -8,7 +8,8 @@ export const Input = React.forwardRef(
         border: '1px solid #ccc',
         display: 'inline-flex',
         alignItems: 'center',
-        marginBottom: 16
+        marginBottom: 16,
+        backgroundColor: 'white'
       }}
       className={className}
     >
