@@ -46,12 +46,14 @@ export const Form = ({ name, setName, setRoomJoined }) => {
   }, [customRoomParam])
 
   return (
+    // TODO: form validation and error states
     <form
       onSubmit={handleSubmit}
       css={{
         width: 'min(350px, 80vw)',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        padding: '32px 16px'
       }}
     >
       <h4 css={{ textAlign: 'center', marginBottom: 32, marginTop: 0 }}>
@@ -81,7 +83,7 @@ export const Form = ({ name, setName, setRoomJoined }) => {
           <Input
             type='text'
             name='room'
-            placeholder='Room (Leave this empty to create a random room)'
+            placeholder='Room (Optional)'
             ref={roomInputRef}
             icon={<mwc-icon>room</mwc-icon>}
             css={{ flexGrow: 1 }}
