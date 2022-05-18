@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react'
 import randomWords from 'random-words'
 import { joinRoom } from '../room'
 import { useNavigate, useParams } from 'react-router-dom'
-import '@material/mwc-icon/mwc-icon.js'
+import { Icon } from '@rmwc/icon'
 import { CUSTOM_ROOM } from '../../config.json'
 import { Button, Input } from '.'
 
@@ -73,7 +73,7 @@ export const Form = ({ name, setName, setRoomJoined }) => {
           placeholder='Name'
           defaultValue={name}
           ref={nameInputRef}
-          icon={<mwc-icon>person</mwc-icon>}
+          icon={<Icon icon='person' />}
           css={{ flexGrow: 1 }}
         />
         {customRoom && <Button type='submit'>Join Session</Button>}
@@ -85,7 +85,7 @@ export const Form = ({ name, setName, setRoomJoined }) => {
             name='room'
             placeholder='Room (Optional)'
             ref={roomInputRef}
-            icon={<mwc-icon>room</mwc-icon>}
+            icon={<Icon icon='room' />}
             css={{ flexGrow: 1 }}
           />
           <Button
