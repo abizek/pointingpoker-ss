@@ -1,6 +1,7 @@
 import { useSyncedStore } from '@syncedstore/react'
 import { store } from '../store'
 import { Button } from '.'
+import { Icon } from '@rmwc/icon'
 
 export const Menu = () => {
   const sharedState = useSyncedStore(store)
@@ -16,12 +17,13 @@ export const Menu = () => {
 
   return (
     <>
-      <div
+      <section
         css={{
           display: 'flex',
           width: '100%',
           margin: '24px 0',
-          columnGap: 8
+          columnGap: 8,
+          alignItems: 'center'
         }}
       >
         <Button onClick={clearVotes} css={buttonClass}>
@@ -35,7 +37,8 @@ export const Menu = () => {
         >
           Show Votes
         </Button>
-      </div>
+        <Icon icon='more_vert' />
+      </section>
       Vote Options: &nbsp;
       <select
         value={sharedState.gameState.voteOptions ?? '1 to 10'}

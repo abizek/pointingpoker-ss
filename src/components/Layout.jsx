@@ -1,26 +1,22 @@
+import { Card } from '.'
+
 export const Layout = ({ children }) => (
-  <div
-    css={{
-      height: '100vh',
-      width: '100vw',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      background: '#eee'
-    }}
-  >
+  <>
     <header
       css={{
-        textAlign: 'center',
-        marginTop: '8vh',
-        position: 'absolute' // FIXME: not use absolute positioning
+        position: 'absolute', // FIXME: not use absolute positioning
+        display: 'flex',
+        width: '100vw',
+        justifyContent: 'center'
       }}
     >
       <h1
         css={{
           margin: 0,
           fontFamily: 'Bungee Shade',
-          fontSize: 'clamp(3.05rem, 3.54vw + 2.17rem, 5rem)'
+          fontSize: 'clamp(3.05rem, 3.54vw + 2.17rem, 5rem)',
+          marginLeft: '2vw',
+          marginTop: '6vh'
         }}
       >
         POINTING POKER
@@ -28,14 +24,14 @@ export const Layout = ({ children }) => (
     </header>
     <div
       css={{
-        border: '1px solid lightgrey',
-        borderRadius: 16,
-        width: 'max-content',
-        margin: 'auto',
-        backgroundColor: '#f8f8f8'
+        height: '100vh',
+        width: '100vw',
+        display: 'grid',
+        placeItems: 'center',
+        background: '#eee'
       }}
     >
-      {children}
+      <Card>{children}</Card>
     </div>
-  </div>
+  </>
 )

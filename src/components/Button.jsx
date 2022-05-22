@@ -1,4 +1,4 @@
-export const Button = ({ children, css, ...restProps }) => (
+export const Button = ({ children, ...restProps }) => (
   <button
     css={{
       backgroundColor: 'white',
@@ -8,7 +8,7 @@ export const Button = ({ children, css, ...restProps }) => (
       letterSpacing: -0.4,
       fontSize: 14,
       cursor: 'pointer',
-      height: 38,
+      minHeight: 38,
       '&:hover': {
         backgroundColor: '#eee'
       }
