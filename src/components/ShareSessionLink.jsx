@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Icon } from '@rmwc/icon'
 import { Snackbar } from '@rmwc/snackbar'
 import '@material/snackbar/dist/mdc.snackbar.css'
@@ -7,34 +7,30 @@ import '@material/ripple/dist/mdc.ripple.css'
 import { Popup, Button } from '.'
 
 export const ShareSessionLink = () => {
-  const [showPopup, setShowPopup] = useState(false)
+  const popupRef = useRef()
   const [open, setOpen] = useState(false)
-
-  const togglePopup = () => {
-    setShowPopup(!showPopup)
-  }
 
   return (
     <>
       <Icon
         icon='share'
-        onClick={togglePopup}
+        onClick={() => {
+          popupRef.current.showModal()
+        }}
         css={{
           fontSize: 32,
           padding: 8,
           cursor: 'pointer'
         }}
       />
-      <Popup
-        open={showPopup}
-        onClickOutside={togglePopup}
-        css={{ padding: 24, width: 'min(450px, 80vw)' }}
-      >
+      <Popup ref={popupRef} css={{ padding: 24, width: 'min(450px, 80vw)' }}>
         <div css={{ display: 'flex', justifyContent: 'space-between' }}>
           Share
           <Icon
             icon='close'
-            onClick={togglePopup}
+            onClick={() => {
+              popupRef.current.close()
+            }}
             css={{ cursor: 'pointer' }}
           />
         </div>
