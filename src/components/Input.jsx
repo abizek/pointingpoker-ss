@@ -1,6 +1,6 @@
-import React from 'react'
+import { forwardRef } from 'react'
 
-export const Input = React.forwardRef(
+export const Input = forwardRef(
   ({ css, className, icon, ...restProps }, ref) => (
     <div
       css={{

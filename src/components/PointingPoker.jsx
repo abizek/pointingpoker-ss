@@ -12,7 +12,6 @@ export const PointingPoker = ({ name }) => {
   useEffect(() => {
     const { wsProvider, awareness, clientID } = room
     const onConnectionStatusChange = ({ status }) => {
-      console.log(status) // logs "connected" or "disconnected"
       const isConnected = status === 'connected'
       setConnected(isConnected)
     }
@@ -62,9 +61,19 @@ export const PointingPoker = ({ name }) => {
   }, [sharedState.players])
 
   return (
-    <>
+    <main css={{ padding: '24px', width: 'min(462px, 80vw)' }}>
       {/* // TODO: make name editable? */}
-      <h1 css={{ marginTop: 0 }}>{name}</h1>
+      <header
+        css={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '24px'
+        }}
+      >
+        <h1 css={{ margin: 0 }}>{name}</h1>
+        <ShareSessionLink />
+      </header>
       {connected
         ? (
           <>
@@ -76,7 +85,6 @@ export const PointingPoker = ({ name }) => {
         : (
           <>Connecting...</>
           )}
-      <ShareSessionLink />
-    </>
+    </main>
   )
 }

@@ -10,6 +10,7 @@
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@rmwc/icon": "^7.0.3",
+    "@rmwc/snackbar": "^7.0.3",
     "@syncedstore/core": "^0.3.9",
     "@syncedstore/react": "^0.3.9",
     "random-words": "^1.1.2",

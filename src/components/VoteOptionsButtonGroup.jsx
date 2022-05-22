@@ -26,9 +26,13 @@ export const VoteOptionsButtonGroup = ({ name }) => {
     }
   }
 
-  return voteOptions[sharedState.gameState.voteOptions ?? '1 to 10'].map(i => (
-    <Button key={i} onClick={() => setVote(i)} css={{ margin: 2 }}>
-      {i}
-    </Button>
-  ))
+  return (
+    <section css={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+      {voteOptions[sharedState.gameState.voteOptions ?? '1 to 10'].map(i => (
+        <Button key={i} onClick={() => setVote(i)}>
+          {i}
+        </Button>
+      ))}
+    </section>
+  )
 }
