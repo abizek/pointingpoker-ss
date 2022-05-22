@@ -1,41 +1,35 @@
-import { useEffect, useRef } from 'react'
+import { useRef, forwardRef, useImperativeHandle } from 'react'
 import { Card } from '.'
 
-export const Popup = ({ children, open, onClickOutside, ...restProps }) => {
+export const Popup = forwardRef(({ children, ...restProps }, ref) => {
   const popupRef = useRef()
 
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        onClickOutside()
-      }
+  useImperativeHandle(ref, () => ({
+    showModal: () => {
+      popupRef.current.showModal()
+    },
+    close: () => {
+      popupRef.current.close()
     }
-    if (open) document.addEventListener('mousedown', handleClickOutside)
-    else document.removeEventListener('mousedown', handleClickOutside)
+  }))
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [popupRef, open])
-
-  // TODO: Use dialog element instead of Card
   return (
-    <div
+    <dialog
+      ref={popupRef}
+      onClick={event => {
+        if (event.target.tagName === 'DIALOG') {
+          popupRef.current.close()
+        }
+      }}
       css={{
-        position: 'absolute',
-        height: '100vh',
-        width: '100vw',
-        zIndex: 2,
-        backgroundColor: '#0008',
-        top: 0,
-        left: 0,
-        display: open ? 'grid' : 'none',
-        placeItems: 'center'
+        border: 'none',
+        backgroundColor: 'transparent',
+        '&::backdrop': {
+          backgroundColor: '#0008'
+        }
       }}
     >
-      <Card ref={popupRef} css={{ zIndex: 3 }} {...restProps}>
-        {children}
-      </Card>
-    </div>
+      <Card {...restProps}>{children}</Card>
+    </dialog>
   )
-}
+})
