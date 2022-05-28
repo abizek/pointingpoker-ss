@@ -8,7 +8,7 @@ import { Popup, Button } from '.'
 
 export const ShareSessionLink = () => {
   const popupRef = useRef()
-  const [open, setOpen] = useState(false)
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
 
   return (
     <>
@@ -50,14 +50,21 @@ export const ShareSessionLink = () => {
           <Button
             onClick={() => {
               navigator.clipboard.writeText(window.location.href)
+              setSnackbarOpen(true)
+              setTimeout(() => {
+                setSnackbarOpen(false)
+              }, 5000)
             }}
           >
-            Copy
+            Copy Link
           </Button>
         </div>
+        <Snackbar
+          leading
+          open={snackbarOpen}
+          message='Link copied to clipboard'
+        />
       </Popup>
-      <Snackbar open={open} message='hahahahahaha' leading />
-      <Button onClick={() => setOpen(!open)}>Open</Button>
     </>
   )
 }
