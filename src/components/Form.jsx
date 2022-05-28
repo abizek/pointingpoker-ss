@@ -51,6 +51,7 @@ export const Form = ({ name, setName, setRoomJoined }) => {
 
   return (
     // TODO: form validation and error states
+    // TODO: remove form?
     <form
       onSubmit={handleSubmit}
       css={{

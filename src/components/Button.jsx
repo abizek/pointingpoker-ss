@@ -9,6 +9,7 @@ export const Button = ({ children, ...restProps }) => (
       fontSize: 14,
       cursor: 'pointer',
       minHeight: 38,
+      outline: 'none',
       '&:hover': {
         backgroundColor: '#eee'
       }
