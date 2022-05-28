@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
+    "dev": "VITE_GIT_CURRENT_BRANCH=`git branch --show-current` vite --host",
+    "build": "VITE_GIT_CURRENT_BRANCH=`git branch --show-current` vite build",
     "preview": "vite preview --host"
   },
   "dependencies": {
