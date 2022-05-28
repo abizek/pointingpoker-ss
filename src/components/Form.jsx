@@ -1,9 +1,10 @@
+/* global CF_PAGES_BRANCH */
+
 import { useRef, useEffect } from 'react'
 import randomWords from 'random-words'
 import { joinRoom } from '../room'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Icon } from '@rmwc/icon'
-import { CUSTOM_ROOM } from '../../config.json'
 import { Button, Input } from '.'
 
 export const Form = ({ name, setName, setRoomJoined }) => {
@@ -20,7 +21,10 @@ export const Form = ({ name, setName, setRoomJoined }) => {
   const navigate = useNavigate()
 
   const { customRoom: customRoomParam } = useParams()
-  const customRoom = CUSTOM_ROOM || customRoomParam
+  const nonMainBranch =
+    (CF_PAGES_BRANCH || import.meta.env.VITE_GIT_CURRENT_BRANCH) !== 'main' &&
+    (CF_PAGES_BRANCH || import.meta.env.VITE_GIT_CURRENT_BRANCH)
+  const customRoom = nonMainBranch || customRoomParam
 
   const handleSubmit = async event => {
     event.preventDefault()

@@ -10,5 +10,8 @@ export default defineConfig({
         plugins: ['@emotion/babel-plugin']
       }
     })
-  ]
+  ],
+  define: {
+    CF_PAGES_BRANCH: JSON.stringify(process.env.CF_PAGES_BRANCH)
+  }
 })

@@ -2,5 +2,7 @@
 
 https://pointingpoker.pages.dev
 
-## Config
-* Edit config.json to hardcode custom room
+I got tired of the donation popups from https://pointingpoker.com, so I made my own pointing poker app ;P
+
+## Custom room with cloudflare preview deployment
+* Create and push new branch with the required custom room name, your custom room will get deployed like `https://<branch-name>.pointingpoker.pages.dev`
