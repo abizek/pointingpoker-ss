@@ -5,10 +5,39 @@ import '@material/snackbar/dist/mdc.snackbar.css'
 import '@material/button/dist/mdc.button.css'
 import '@material/ripple/dist/mdc.ripple.css'
 import { Popup, Button } from '.'
+import slackLogoUrl from '../slack-logo.svg'
+
+export const ShareLink = ({ icon, text, href, onClick }) => (
+  <a
+    css={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      cursor: 'pointer',
+      textDecoration: 'none',
+      color: 'unset'
+    }}
+    href={href}
+    target='_blank'
+    rel='noreferrer'
+    onClick={onClick}
+  >
+    {icon}
+    <span css={{ fontSize: 12 }}>{text}</span>
+  </a>
+)
 
 export const ShareSessionLink = () => {
   const popupRef = useRef()
   const [snackbarOpen, setSnackbarOpen] = useState(false)
+
+  const copyLinkAndNotify = () => {
+    navigator.clipboard.writeText(window.location.href)
+    setSnackbarOpen(true)
+    setTimeout(() => {
+      setSnackbarOpen(false)
+    }, 5000)
+  }
 
   return (
     <>
@@ -34,10 +63,29 @@ export const ShareSessionLink = () => {
             css={{ cursor: 'pointer' }}
           />
         </div>
-        {/* TODO: share on email, slack */}
         <div
           css={{
-            marginTop: 24,
+            marginTop: 16,
+            padding: 8,
+            display: 'flex',
+            gap: 24
+          }}
+        >
+          <ShareLink
+            icon={<Icon icon='mail_outline' css={{ fontSize: 64 }} />}
+            text='Email'
+            href={encodeURI(`mailto:?subject=Pointing Poker Session&body=Hey,\nI'm inviting you to join this pointing poker session - ${window.location.href}`)}
+          />
+          <ShareLink
+            icon={<img src={slackLogoUrl} css={{ width: 50, padding: 7 }} />}
+            text='Slack'
+            href='slack://'
+            onClick={copyLinkAndNotify}
+          />
+        </div>
+        <div
+          css={{
+            marginTop: 16,
             padding: 8,
             display: 'flex',
             justifyContent: 'space-between',
@@ -46,15 +94,9 @@ export const ShareSessionLink = () => {
             borderRadius: 12
           }}
         >
-          <small>{window.location.href}</small>
+          <small css={{ paddingLeft: 4 }}>{window.location.href}</small>
           <Button
-            onClick={() => {
-              navigator.clipboard.writeText(window.location.href)
-              setSnackbarOpen(true)
-              setTimeout(() => {
-                setSnackbarOpen(false)
-              }, 5000)
-            }}
+            onClick={copyLinkAndNotify}
           >
             Copy Link
           </Button>
