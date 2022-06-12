@@ -15,7 +15,8 @@ export const ShareLink = ({ icon, text, href, onClick }) => (
       alignItems: 'center',
       cursor: 'pointer',
       textDecoration: 'none',
-      color: 'unset'
+      color: 'unset',
+      outline: 'none'
     }}
     href={href}
     target='_blank'

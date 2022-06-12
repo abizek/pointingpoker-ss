@@ -41,15 +41,15 @@ export const Menu = () => {
       </section>
       Vote Options: &nbsp;
       <select
-        value={sharedState.gameState.voteOptions ?? '1 to 10'}
+        value={sharedState.gameState.selectedVoteOptionsLabel}
         onChange={event => {
-          sharedState.gameState.voteOptions = event.target.value
+          sharedState.gameState.selectedVoteOptionsLabel = event.target.value
           clearVotes()
         }}
       >
-        <option value='1 to 10'>1 to 10</option>
-        <option value='modified fibonacci'>modified fibonacci</option>
-        <option value='t-shirt sizes'>t-shirt sizes</option>
+        <option value='0 to 10'>0 to 10</option>
+        <option value='Modified fibonacci'>Modified fibonacci</option>
+        <option value='T-shirt sizes'>T-shirt sizes</option>
       </select>
     </>
   )

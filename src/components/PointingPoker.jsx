@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSyncedStore } from '@syncedstore/react'
 import { store } from '../store'
 import { room } from '../room'
-import { Menu, ScoreBoard, ShareSessionLink, VoteOptionsButtonGroup } from '.'
+import { Menu, ScoreBoard, ShareSessionLink, VoteButtonGroup } from '.'
 
 export const PointingPoker = ({ name }) => {
   const sharedState = useSyncedStore(store)
@@ -12,8 +12,7 @@ export const PointingPoker = ({ name }) => {
   useEffect(() => {
     const { wsProvider, awareness, clientID } = room
     const onConnectionStatusChange = ({ status }) => {
-      const isConnected = status === 'connected'
-      setConnected(isConnected)
+      if (status !== 'connected') setConnected(false)
     }
     wsProvider.on('status', onConnectionStatusChange)
 
@@ -31,9 +30,45 @@ export const PointingPoker = ({ name }) => {
           clientIDs: [...(sharedState.players[name]?.clientIDs ?? []), clientID]
         }
 
-        if (!sharedState.gameState.voteOptions) {
-          sharedState.gameState.voteOptions = '1 to 10' // default vote options
+        if (!sharedState.gameState.selectedVoteOptionsLabel) {
+          sharedState.gameState.selectedVoteOptionsLabel = '0 to 10' // default
         }
+        sharedState.voteOptions['0 to 10'] = [
+          0,
+          0.5,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+        sharedState.voteOptions['Modified fibonacci'] = [
+          0.5,
+          1,
+          2,
+          3,
+          5,
+          8,
+          13,
+          20,
+          40,
+          100
+        ]
+        sharedState.voteOptions['T-shirt sizes'] = [
+          'XS',
+          'S',
+          'M',
+          'L',
+          'XL',
+          '2XL',
+          '3XL'
+        ]
+        setConnected(true)
       }
     }
     wsProvider.on('sync', onSync)
@@ -41,7 +76,9 @@ export const PointingPoker = ({ name }) => {
     const onAwarenessUpdate = ({ removed }) => {
       removed.forEach(removedClientId => {
         Object.keys(sharedState.players).forEach(player => {
-          const index = sharedState.players[player].clientIDs.indexOf(removedClientId)
+          const index = sharedState.players[player].clientIDs.indexOf(
+            removedClientId
+          )
           if (index > -1) {
             sharedState.players[player].clientIDs.splice(index, 1)
             if (sharedState.players[player].clientIDs.length === 0) {
@@ -77,7 +114,7 @@ export const PointingPoker = ({ name }) => {
       {connected
         ? (
           <>
-            <VoteOptionsButtonGroup name={name} />
+            <VoteButtonGroup name={name} />
             <Menu />
             <ScoreBoard />
           </>

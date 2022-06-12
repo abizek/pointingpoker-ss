@@ -1,11 +1,9 @@
-import {
-  syncedStore,
-  getYjsValue
-} from '@syncedstore/core'
+import { syncedStore, getYjsValue } from '@syncedstore/core'
 
 export const store = syncedStore({
   players: {},
-  gameState: {}
+  gameState: {},
+  voteOptions: {}
 })
 
 export const yDoc = getYjsValue(store)
